@@ -1,0 +1,24 @@
+;; (deflisten wslist0
+;;   "scripts/getwsss eDP-1")
+;; (deflisten wslist1
+;;   "scripts/getwsss DP-")
+(deflisten wslist0
+  "scripts/wmws 0")
+(deflisten wslist1
+  "scripts/wmws 1")
+(defwidget workspaces [monitor]
+  (box :class "workspaces"
+    (for entry in {monitor == 0 ? wslist0 : wslist1}
+      (button :class "${
+                entry.urgent ? "urgent"
+                : entry.focused ? "focused"
+                : "unfocused"
+                } id${entry.id}"
+              :onclick "hyprctl dispatch workspace ${entry.id}"
+              ;; :onclick "swaymsg -t command workspace ${entry.id}"
+        {entry.name}
+      )
+    )
+  )
+)
+
